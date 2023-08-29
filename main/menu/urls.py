@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import MenuListView
+from .views import MenuListView, mainPage
 
 urlpatterns = [
-    path("", MenuListView.as_view())
+    path('', mainPage, name='main'),
+    path('menu/', MenuListView.as_view(), name='menu'),
 ]

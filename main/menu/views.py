@@ -9,3 +9,6 @@ class MenuListView(ListView):
     context_object_name = 'menu_list'
     template_name = 'menu/menu_list.html'
 
+
+def mainPage(request):
+    return render(request, 'main.html')
