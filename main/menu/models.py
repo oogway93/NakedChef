@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext_lazy as _
 
 
 class Validator:
@@ -36,10 +35,14 @@ class Section(models.Model):
 
 
 class Menu(models.Model):
-    section = models.ForeignKey(to=Section, on_delete=models.CASCADE, null=False)
+    section = models.ForeignKey(to=Section, on_delete=models.CASCADE)
     title = models.CharField(verbose_name='Название блюда',
-                             validators=[Validator.validatorCapitalizeAndMinLengthTitle],
-                             null=False)
+                             validators=[Validator.validatorCapitalizeAndMinLengthTitle])
+    the_dish = models.TextField(verbose_name='Состав блюда', null=True, blank=True)
+    price = models.DecimalField(verbose_name='Цена', max_digits=7, decimal_places=2, default=0)
+    weight = models.IntegerField(verbose_name='Вес', default=100)
+    img = models.ImageField(verbose_name='Картинка', upload_to=f'menu_images/',
+                            default="https://nakedchef-fmr.ru/images/logo.png")
 
     class Meta:
         db_table = 'Menu'

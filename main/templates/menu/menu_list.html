@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block title %}Menu{% endblock %}
+
+{% block content %}
+{% for dish in object_list %}
+{{ dish.title }}
+{% endfor %}
+{% endblock %}
+
