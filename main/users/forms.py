@@ -7,12 +7,15 @@ User = get_user_model()
 
 
 class UserCreationForm(UserCreationForm):
-    email = forms.EmailField(
-        label=_("Email"),
-        max_length=254,
-        widget=forms.EmailInput(attrs={"autocomplete": "email"}),
-    )
+    email = forms.EmailField(required=True)
 
-    class Meta(UserCreationForm.Meta):
+    class Meta:
         model = User
-        fields = ("username", "email")
+        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2', ]
+
+    def save(self, commit=True):
+        user = super(UserCreationForm, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+        return user
