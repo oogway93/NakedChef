@@ -25,10 +25,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'crispy_forms',
-
     'menu.apps.MenuConfig',
     'users.apps.UsersConfig',
+    'order.apps.OrderConfig',
 ]
 
 MIDDLEWARE = [
@@ -95,12 +94,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Auth part
 AUTH_USER_MODEL = 'users.User'

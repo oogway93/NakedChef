@@ -57,12 +57,14 @@ class Menu(models.Model):
     title = models.CharField(verbose_name='Название блюда',
                              validators=[Validator.validatorTitleIsCapitalize,
                                          MinLengthValidator(2, message="Min length must be more than 2 letters"),
-                                         MaxLengthValidator(30, message="Too much... Give a title shorter")])
+                                         MaxLengthValidator(30, message="Too much... Give a title shorter")],
+                             unique=True)
     the_dish = models.TextField(verbose_name='Состав блюда', null=True, blank=True)
-    price = models.DecimalField(verbose_name='Цена', max_digits=7, decimal_places=2, default=0)
-    weight = models.IntegerField(verbose_name='Вес', default=100)
-    img = models.ImageField(verbose_name='Картинка', upload_to=f'menu_images/',
-                            default="https://nakedchef-fmr.ru/images/logo.png")
+    price = models.DecimalField(verbose_name='Цена', max_digits=7, decimal_places=2, default=0,
+                                help_text="Prices in RUB")
+    weight = models.IntegerField(verbose_name='Вес', default=100, help_text="Mention in grammes")
+    img = models.URLField(verbose_name='Картинка',
+                          default="https://nakedchef-fmr.ru/images/logo.png")
 
     class Meta:
         db_table = 'Menu'

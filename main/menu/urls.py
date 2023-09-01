@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import MenuListView, mainPage, SectionListView
+from .views import MenuListView, mainPage
 
 urlpatterns = [
     path('', mainPage, name='main'),

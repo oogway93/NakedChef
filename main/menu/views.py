@@ -10,11 +10,5 @@ class MenuListView(ListView):
     template_name = 'menu/menu_list.html'
 
 
-class SectionListView(ListView):
-    model = Section
-    context_object_name = 'section_list'
-    template_name = 'menu/menu_list.html'
-
-
 def mainPage(request):
     return render(request, 'main.html')
