@@ -1,13 +1,28 @@
+import string
+
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.core.validators import MinLengthValidator, MaxLengthValidator
 
 
 class Validator:
+    @staticmethod
+    def validatorTitleIsCapitalize(title: str):
+        if title.strip()[0] not in "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ":
+            raise ValidationError("First letter isn`t upper")
 
     @staticmethod
-    def validatorCapitalizeAndMinLengthTitle(title: str):
-        if len(title) <= 2 and not title.capitalize():
-            raise ValidationError("Min length must be more than 2 symbols and first letter is upper")
+    def validatorCheckFirstLetterInASection(section: str):
+        if section.strip()[0] not in string.ascii_uppercase:
+            raise ValidationError("First Letter must be upper")
+
+    @staticmethod
+    def validatorCheckUniquenessTheSection(section: str):
+        data = Section.objects.all()
+        list_data = list(data)
+        for d in list_data:
+            if str(d)[:9].lower() == section.lower():
+                raise ValidationError("The section must be unique")
 
 
 class Section(models.Model):
@@ -21,9 +36,12 @@ class Section(models.Model):
 
     section = models.CharField(
         verbose_name="Разделы кухни",
-        choices=sectionChoices,
-        null=False,
-        default=sectionChoices[0][0])
+        max_length=30,
+        unique=True,
+        validators=[Validator.validatorCheckFirstLetterInASection,
+                    Validator.validatorCheckUniquenessTheSection,
+                    MinLengthValidator(3, message="Min length must be more than 3 letters")],
+        help_text="Choose: Main  dishes, Appetizers, Soups, Salads, Steaks, Desserts or Beverages")
 
     class Meta:
         db_table = 'Section'
@@ -37,7 +55,9 @@ class Section(models.Model):
 class Menu(models.Model):
     section = models.ForeignKey(to=Section, on_delete=models.CASCADE)
     title = models.CharField(verbose_name='Название блюда',
-                             validators=[Validator.validatorCapitalizeAndMinLengthTitle])
+                             validators=[Validator.validatorTitleIsCapitalize,
+                                         MinLengthValidator(2, message="Min length must be more than 2 letters"),
+                                         MaxLengthValidator(30, message="Too much... Give a title shorter")])
     the_dish = models.TextField(verbose_name='Состав блюда', null=True, blank=True)
     price = models.DecimalField(verbose_name='Цена', max_digits=7, decimal_places=2, default=0)
     weight = models.IntegerField(verbose_name='Вес', default=100)

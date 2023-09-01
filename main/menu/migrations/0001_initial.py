@@ -6,7 +6,6 @@ import menu.models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -17,7 +16,10 @@ class Migration(migrations.Migration):
             name='Section',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('section', models.CharField(choices=[('Main dishes', 'Main dishes'), ('Appetizers', 'Appetizers'), ('Soups', 'Soups'), ('Salads', 'Salads'), ('Steaks', 'Steaks'), ('Desserts ', 'Desserts'), ('Beverages', 'Beverages')], default='Main dishes', verbose_name='Разделы кухни')),
+                ('section', models.CharField(
+                    choices=[('Main dishes', 'Main dishes'), ('Appetizers', 'Appetizers'), ('Soups', 'Soups'),
+                             ('Salads', 'Salads'), ('Steaks', 'Steaks'), ('Desserts ', 'Desserts'),
+                             ('Beverages', 'Beverages')], default='Main dishes', verbose_name='Разделы кухни')),
             ],
             options={
                 'verbose_name': 'Section',
@@ -29,7 +31,9 @@ class Migration(migrations.Migration):
             name='Menu',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(validators=[menu.models.Validator.validatorCapitalizeAndMinLengthTitle], verbose_name='Название блюда')),
+                ('title',
+                 models.CharField(validators=[menu.models.Validator.validatorTitleIsCapitalize],
+                                  verbose_name='Название блюда')),
                 ('section', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='menu.section')),
             ],
         ),
