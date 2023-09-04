@@ -27,11 +27,8 @@ INSTALLED_APPS = [
 
     'menu.apps.MenuConfig',
     'users.apps.UsersConfig',
-<<<<<<< HEAD
-    'orders.apps.OrdersConfig'
-=======
-    'order.apps.OrderConfig',
->>>>>>> develope
+    'orders.apps.OrdersConfig',
+    'cart.apps.CartConfig',
 ]
 
 MIDDLEWARE = [
@@ -103,11 +100,14 @@ STATIC_URL = '/static/'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+CART_SESSION_ID = 'cart'
 
 # Auth part
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+'cart.context_processor.cart_total_amount'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
