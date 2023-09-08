@@ -3,5 +3,80 @@
 {% block title %}Order{% endblock %}
 
 {% block content %}
-{% for i in table_list %}
+    <div class="row">
+    <div class="col-lg-12">
+        <div class="box-element">
+            <br>
+            <br>
+            <form id="form-payed">
+                <input type="hidden" name="total_payment" value="{{ total }}">
+                <input type="hidden" name="id_order" value="{{ order.id }}">
+                <table class="table">
+                    <tr>
+                        <th><h5>Items: <strong>{{ quantity }}</strong></h5></th>
+                        <th><h5>Total:<strong> ${{ total|floatformat:2 }}</strong></h5></th>
+                        <th>
+                            <h5>
+                                <div id="customer-info">
+                                    <div class="form-field">
+                                        <h3>{{ order.customer.first_name }}</h3>
+                                    </div>
+                                    <div class="form-field">
+                                        <h3>{{ order.customer.last_name }}</h3>
+                                    </div>
+                                </div>
+                            </h5>
+                        </th>
+                        <th>
+                            <h5>
+                                <div id="table-info">
+                                    Название зала: {{ order.table.hall }}
+                                    Номер стола: {{ order.table.number }}
+                                </div>
+                            </h5>
+                        </th>
+                        <th>
+                            <div class="form-field">
+                                <input class="form-control" type="number" name="tips" maxlength="150"
+                                       placeholder="Чаевые">
+                            </div>
+                        </th>
+                        <th>
+                            <input id="form-button-payed" class="btn btn-success" value="Оплатить">
+                            <div class="btn btn-light list-inline rating-list" id="rating">
+                                <i class="fa fa-star " title="Rate 5"></i>
+                                <i class="fa fa-star " title="Rate 4"></i>
+                                <i class="fa fa-star " title="Rate 3"></i>
+                                <i class="fa fa-star " title="Rate 2"></i>
+                                <i class="fa fa-star " title="Rate 1"></i>
+                            </div>
+                        </th>
+                    </tr>
+                </table>
+                {#                <input name="total" value="{{ order.get_cart_total|floatformat:2 }}" type="hidden">#}
+            </form>
+
+        </div>
+
+        <br>
+        <div class="box-element">
+            <div class="row">
+                <div style="flex:2"></div>
+                <div style="flex:2"><strong>Item</strong></div>
+                <div style="flex:1"><strong>Price</strong></div>
+                <div style="flex:1"><strong>Quantity</strong></div>
+                <div style="flex:1"><strong>Total</strong></div>
+            </div>
+            {#            {% for item in items %}#}
+            {#                <div class="row">#}
+            {#                    <div style="flex:2"><img class="row-image" src="{{ item.dish.image.url }}"></div>#}
+            {#                    <div style="flex:2"><p>{{ item.dish.name }}</p></div>#}
+            {#                    <div style="flex:1"><p>${{ item.dish.price|floatformat:2 }}</p></div>#}
+            {#                    <div style="flex:1"><p>{{ item.quantity }}</p></div>#}
+            {#                    <div style="flex:1"><p>${{ item.get_total|floatformat:2 }}</p></div>#}
+            {#                </div>#}
+            {#            {% endfor %}#}
+            {#        </div>#}
+        </div>
+    </div>
 {% endblock %}

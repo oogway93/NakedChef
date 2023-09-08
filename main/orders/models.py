@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 
@@ -51,3 +53,35 @@ class Table(models.Model):
 
     def __str__(self) -> str:
         return f"{self.hall_id}/{self.place}"
+
+
+class Order(models.Model):
+    category_status = (
+        ('Ожидается оплата', 'Ожидается оплата'),
+        ('Оплачено', 'Оплачено'),
+        ('Готовится', 'Готовится'),
+        ('Блюда в зале', 'Блюда в зале'),
+    )
+    number = 0
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    order_number = models.IntegerField(default=1)
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+    table = models.ForeignKey(Table, on_delete=models.SET_NULL, null=True, blank=True)
+    status = models.CharField(max_length=100, choices=category_status, default=str(table))
+    # waiter = models.ForeignKey(Waiter, on_delete=models.SET_NULL, null=True, blank=True)
+    total_payment = models.IntegerField(default=0)
+
+    # tips = models.ForeignKey(Tips, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def get_all_status(self):
+        return self.category_status
+
+    class Meta:
+        db_table = 'Order'
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
+        ordering = ['-date_ordered']
+
+    def __str__(self) -> str:
+        return f"{self.id}"

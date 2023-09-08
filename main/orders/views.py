@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView
-from .models import Customer, Hall, Table
+from .models import Customer, Hall, Table, Order
 
 
 class CustomerListView(ListView):
@@ -16,8 +16,15 @@ class HallListView(ListView):
 class TableListView(ListView):
     model = Table
     context_object_name = 'table_list'
+    template_name = 'order/order_list.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(TableListView, self).get_context_data(**kwargs)
         context['test'] = 'TTTTTTTESSSSSSTTT'
-        return test
+        return context
+
+
+class OrderListView(ListView):
+    model = Order
+    context_object_name = 'order_list'
+    template_name = 'order/order_list.html'
