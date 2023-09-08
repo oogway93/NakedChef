@@ -21,7 +21,7 @@ class Hall(models.Model):
         ('VIP lounge', 'VIP lounge'),
         ('Тераса', 'Тераса'),
     ]
-    hall = models.CharField('Hall', default='Зал 1', choices=category_hall, unique=True)
+    hall = models.CharField('Hall', max_length=20, default='Зал 1', choices=category_hall, unique=True)
 
     class Meta:
         db_table = 'Hall'
@@ -42,7 +42,7 @@ class Table(models.Model):
         ('B3', 'B3'),
     ]
     hall_id = models.ForeignKey(to=Hall, on_delete=models.CASCADE, default='Зал 1')
-    place = models.CharField('ID стола', default='A1', choices=table_id)
+    place = models.CharField('ID стола', max_length=20, default='A1', choices=table_id)
 
     class Meta:
         db_table = 'Table'

@@ -17,7 +17,7 @@ class TableListView(ListView):
     model = Table
     context_object_name = 'table_list'
 
-
-
-
-
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(TableListView, self).get_context_data(**kwargs)
+        context['test'] = 'TTTTTTTESSSSSSTTT'
+        return test

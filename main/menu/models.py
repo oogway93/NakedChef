@@ -55,6 +55,7 @@ class Section(models.Model):
 class Menu(models.Model):
     section = models.ForeignKey(to=Section, on_delete=models.CASCADE)
     title = models.CharField(verbose_name='Название блюда',
+                             max_length=50,
                              validators=[Validator.validatorTitleIsCapitalize,
                                          MinLengthValidator(2, message="Min length must be more than 2 letters"),
                                          MaxLengthValidator(30, message="Too much... Give a title shorter")],
