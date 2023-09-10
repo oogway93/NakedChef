@@ -3,28 +3,28 @@
 {% block title %}Menu{% endblock %}
 
 {% block content %}
-<h1>Menu</h1>
-<hr>
-<div>
-    {% for menu in menu_list %}
-    <h2>{{ menu.section }}</h2>
-    <div class="col-lg-3">
-        <div class="card card-inverse card-primary ">
-            <div class="card-block">
-                <div class="text-xs-center">
-                    <img src="{{ menu.img }}" class="card-img-top" alt="{{ menu.title }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ menu.title }}</h5>
-                        <p class="card-text">{{ menu.the_dish }}</p>
-                        <p class="card-text">{{ menu.weight }}</p>
-                        <p class="card-text">{{ menu.price }}</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+    <h1>Menu</h1>
+    <hr>
+    <div>
+        {% for menu in menu_list %}
+            <h2>{{ menu.section }}</h2>
+            <div class="col-lg-3">
+                <div class="card card-inverse card-primary ">
+                    <div class="card-block">
+                        <div class="text-xs-center">
+                            <img src="{{ menu.img }}" class="card-img-top" alt="{{ menu.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ menu.title }}</h5>
+                                <p class="card-text">{{ menu.the_dish }}</p>
+                                <p class="card-text">{{ menu.weight }}</p>
+                                <p class="card-text">{{ menu.price }}</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
 
 {% endblock %}

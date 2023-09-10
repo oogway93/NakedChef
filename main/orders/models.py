@@ -2,6 +2,8 @@ import uuid
 
 from django.db import models
 
+from menu.models import Menu
+
 
 class Customer(models.Model):
     first_name = models.CharField("Имя", max_length=30)
@@ -77,6 +79,13 @@ class Order(models.Model):
     def get_all_status(self):
         return self.category_status
 
+    def save(self, *args, **kwargs):
+        if self._state.adding:
+            last_id = Order.objects.all().aggregate(largest=models.Max('order_number'))['largest']
+            if last_id is not None:
+                self.order_number = last_id + 1
+        super(Order, self).save(*args, **kwargs)
+
     class Meta:
         db_table = 'Order'
         verbose_name = 'Order'
@@ -85,3 +94,16 @@ class Order(models.Model):
 
     def __str__(self) -> str:
         return f"{self.id}"
+
+
+class OrderItem(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    menu = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True, blank=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0, null=True)
+
+    def __str__(self):
+        return f"{self.id}"
+
+    def get_total(self):
+        return self.quantity * self.menu.price
