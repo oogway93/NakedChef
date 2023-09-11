@@ -1,49 +1,15 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-# from cart.cart import Cart
-
-from main.menu.models import Menu
+from django.shortcuts import render
+from .utils import cart_data
+from orders.models import Table
 
 
-@login_required(login_url="/users/login")
-def cart_add(request, id):
-    cart = Cart(request)
-    product = Menu.objects.get(id=id)
-    cart.add(product=product)
-    return redirect("home")
+def cart(request):
+    data = cart_data(request)
+    tables = Table.objects.all()
 
+    cart_items = data['cart_items']
+    order = data['order']
+    items = data['items']
 
-@login_required(login_url="/users/login")
-def item_clear(request, id):
-    cart = Cart(request)
-    product = Menu.objects.get(id=id)
-    cart.remove(product)
-    return redirect("cart_detail")
-
-
-@login_required(login_url="/users/login")
-def item_increment(request, id):
-    cart = Cart(request)
-    product = Menu.objects.get(id=id)
-    cart.add(product=product)
-    return redirect("cart_detail")
-
-
-@login_required(login_url="/users/login")
-def item_decrement(request, id):
-    cart = Cart(request)
-    product = Menu.objects.get(id=id)
-    cart.decrement(product=product)
-    return redirect("cart_detail")
-
-
-@login_required(login_url="/users/login")
-def cart_clear(request):
-    cart = Cart(request)
-    cart.clear()
-    return redirect("cart_detail")
-
-
-@login_required(login_url="/users/login")
-def cart_detail(request):
-    return render(request, 'cart/cart_detail.html')
+    context = {'items': items, 'order': order, 'cart_items': cart_items, 'tables': tables}
+    return render(request, 'cart/cart.html', context)

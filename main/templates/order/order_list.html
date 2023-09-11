@@ -43,16 +43,16 @@
                                         </div>
                                     </h5>
                                 </th>
-                                <th>
+{#                                <th>#}
                                     {#                                    <input id="form-button-payed" class="btn btn-success" value="Оплатить">#}
-                                    <div class="btn btn-light list-inline rating-list" id="rating">
-                                        <i class="fa fa-star " title="Rate 5"></i>
-                                        <i class="fa fa-star " title="Rate 4"></i>
-                                        <i class="fa fa-star " title="Rate 3"></i>
-                                        <i class="fa fa-star " title="Rate 2"></i>
-                                        <i class="fa fa-star " title="Rate 1"></i>
-                                    </div>
-                                </th>
+{#                                    <div class="btn btn-light list-inline rating-list" id="rating">#}
+{#                                        <i class="fa fa-star " title="Rate 5"></i>#}
+{#                                        <i class="fa fa-star " title="Rate 4"></i>#}
+{#                                        <i class="fa fa-star " title="Rate 3"></i>#}
+{#                                        <i class="fa fa-star " title="Rate 2"></i>#}
+{#                                        <i class="fa fa-star " title="Rate 1"></i>#}
+{#                                    </div>#}
+{#                                </th>#}
                             </tr>
                         </table>
                     </form>
@@ -73,7 +73,7 @@
                                 <div style="flex:1" align="center"><strong>Price</strong></div>
                             </th>
                             <th>
-                                <div style="flex:1" align="center"><strong>Customer</strong></div>
+                                <div style="flex:1" align="center"><strong>Quantity</strong></div>
                             </th>
                             <th>
                                 <div style="flex:1" align="center"><strong>Total</strong></div>
@@ -94,15 +94,13 @@
                             <div style="flex:1" align="center"><p>${{ item.menu.price }}</p></div>
                         </th>
                         <th>
-                            <div style="flex:1" align="center"><p>{{ item.order.customer }}</p></div>
+                            <div style="flex:1" align="center"><p>{{ item.quantity }}</p></div>
                         </th>
                         <th>
                             <div style="flex:1" align="center"><p>${{ item.get_total }}</p></div>
                         </th>
                     </tr>
                 </div>
-                </div>
-                </tr>
                 </div>
                 </div>
             {% endfor %}
