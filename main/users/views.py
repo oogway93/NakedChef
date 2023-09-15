@@ -1,9 +1,12 @@
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import View
 from django.contrib import messages
+from django.views.generic import UpdateView
 
-from .forms import UserCreationForm
+from .forms import UserCreationForm, UserProfileForm
+from .models import User
 
 
 class Register(View):
@@ -30,5 +33,10 @@ class Register(View):
         return render(request, self.template_name, context)
 
 
-def profile(request):
-    return render(request, 'registration/profile.html')
+class UserProfileView(UpdateView):
+    model = User
+    form_class = UserProfileForm
+    template_name = 'registration/profile.html'
+
+    def get_success_url(self):
+        return reverse_lazy('users:profile', args=(self.object.id,))

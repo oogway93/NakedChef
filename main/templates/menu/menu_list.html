@@ -22,7 +22,7 @@
                             {% endif %}
                             <p class="card-text">{{ menu.weight }} гр</p>
                             <p class="card-text">{{ menu.price|floatformat:"0" }} руб.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <a href="{% url 'order' %}" class="btn btn-primary">Add to cart</a>
                         </div>
 
                         &nbsp&nbsp
