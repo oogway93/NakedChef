@@ -7,14 +7,12 @@ from django.core.validators import MinLengthValidator, MaxLengthValidator
 
 class Validator:
     @staticmethod
-    def validatorTitleIsCapitalize(title: str):
-        if title.strip()[0] not in "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ":
+    def validatorStringIsCapitalize(string_: str):
+        if string_[0] in "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" or string_[0] in string.ascii_uppercase:
+            print('Success')
+        else:
+            print('Some wrongs')
             raise ValidationError("First letter isn`t upper")
-
-    @staticmethod
-    def validatorCheckFirstLetterInASection(section: str):
-        if section.strip()[0] not in string.ascii_uppercase:
-            raise ValidationError("First Letter must be upper")
 
     @staticmethod
     def validatorCheckUniquenessTheSection(section: str):
@@ -38,7 +36,7 @@ class Section(models.Model):
         verbose_name="Разделы кухни",
         max_length=30,
         unique=True,
-        validators=[Validator.validatorCheckFirstLetterInASection,
+        validators=[Validator.validatorStringIsCapitalize,
                     Validator.validatorCheckUniquenessTheSection,
                     MinLengthValidator(3, message="Min length must be more than 3 letters")],
         help_text="Choose: Main  dishes, Appetizers, Soups, Salads, Steaks, Desserts or Beverages")
@@ -55,15 +53,15 @@ class Section(models.Model):
 class Menu(models.Model):
     section = models.ForeignKey(to=Section, on_delete=models.CASCADE)
     title = models.CharField(verbose_name='Название блюда',
-                             max_length=50,
-                             validators=[Validator.validatorTitleIsCapitalize,
+                             max_length=30,
+                             validators=[Validator.validatorStringIsCapitalize,
                                          MinLengthValidator(2, message="Min length must be more than 2 letters"),
                                          MaxLengthValidator(30, message="Too much... Give a title shorter")],
                              unique=True)
     the_dish = models.TextField(verbose_name='Состав блюда', null=True, blank=True)
     price = models.DecimalField(verbose_name='Цена', max_digits=7, decimal_places=2, default=0,
                                 help_text="Prices in RUB")
-    amount = models.PositiveIntegerField(default=0)
+    # amount = models.PositiveIntegerField(default=0)
     weight = models.IntegerField(verbose_name='Вес', default=100, help_text="Mention in grammes")
     img = models.URLField(verbose_name='Картинка',
                           default="https://nakedchef-fmr.ru/images/logo.png")
