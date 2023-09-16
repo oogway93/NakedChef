@@ -1,5 +1,6 @@
 import uuid
 
+from django.core.validators import EmailValidator
 from django.db import models
 
 from menu.models import Menu
@@ -8,6 +9,7 @@ from menu.models import Menu
 class Customer(models.Model):
     first_name = models.CharField("Имя", max_length=30)
     last_name = models.CharField("Фамилия", max_length=50)
+    email = models.EmailField("Почта", validators=[EmailValidator], unique=True, null=True, blank=True)
 
     class Meta:
         db_table = 'Customer'
