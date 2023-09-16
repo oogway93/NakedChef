@@ -28,3 +28,10 @@ def basket_add(request, menu_id):
     user = request.user
     Basket.create_or_update(menu_id, user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+@login_required
+def basket_remove(request, basket_id):
+    basket = Basket.objects.get(id=basket_id)
+    basket.delete()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
