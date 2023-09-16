@@ -3,6 +3,9 @@ import string
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator, MaxLengthValidator
+from django.http import HttpResponseRedirect
+
+from users.models import User
 
 
 class Validator:
@@ -73,3 +76,46 @@ class Menu(models.Model):
 
     def __str__(self):
         return f'{self.section}: {self.title}'
+
+
+class BasketQuerySet(models.QuerySet):
+    def total_sum(self):
+        return sum(basket.sum() for basket in self)
+
+    def total_quantity(self):
+        return sum(basket.quantity for basket in self)
+
+
+class Basket(models.Model):
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    menu = models.ForeignKey(to=Menu, on_delete=models.CASCADE)
+    quantity = models.PositiveSmallIntegerField(default=0)
+    created_timestamp = models.DateTimeField(auto_now_add=True)
+
+    objects = BasketQuerySet.as_manager()
+
+    def __str__(self):
+        return f'Корзина для {self.user.username} | Продукт: {self.menu.title}'
+
+    class Meta:
+        db_table = 'Basket'
+        verbose_name = 'Basket'
+        verbose_name_plural = 'Baskets'
+
+    @classmethod
+    def create_or_update(cls, menu_id, user):
+        baskets = Basket.objects.filter(user=user, menu_id=menu_id)
+
+        if not baskets.exists():
+            obj = Basket.objects.create(user=user, menu_id=menu_id, quantity=1)
+            is_created = True
+            return obj, is_created
+        else:
+            basket = baskets.first()
+            basket.quantity += 1
+            basket.save()
+            is_created = False
+            return basket, is_created
+
+    def sum(self):
+        return self.menu.price * self.quantity

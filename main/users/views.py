@@ -7,6 +7,7 @@ from django.views.generic import UpdateView
 
 from .forms import UserCreationForm, UserProfileForm
 from .models import User
+from menu.models import Basket
 
 
 class Register(View):
@@ -37,6 +38,11 @@ class UserProfileView(UpdateView):
     model = User
     form_class = UserProfileForm
     template_name = 'registration/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['basket'] = Basket.objects.all()
+        return context
 
     def get_success_url(self):
         return reverse_lazy('users:profile', args=(self.object.id,))
