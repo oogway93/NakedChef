@@ -97,6 +97,18 @@ class Basket(models.Model):
     def __str__(self):
         return f'Корзина для {self.user.username} | Продукт: {self.menu.title}'
 
+    def sum(self):
+        return self.menu.price * self.quantity
+
+    def de_json(self):
+        basket_item = {
+            "title": self.menu.title,
+            "quantity": self.quantity,
+            "price": float(self.menu.price),
+            "sum": float(self.sum())
+        }
+        return basket_item
+
     class Meta:
         db_table = 'Basket'
         verbose_name = 'Basket'
@@ -116,6 +128,3 @@ class Basket(models.Model):
             basket.save()
             is_created = False
             return basket, is_created
-
-    def sum(self):
-        return self.menu.price * self.quantity

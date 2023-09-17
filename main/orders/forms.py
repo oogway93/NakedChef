@@ -11,5 +11,5 @@ class OrderForm(forms.ModelForm):
         'you@example.com'}))
 
     class Meta:
-        model = Customer
-        fields = ('first_name', 'last_name')
+        model = Order
+        fields = ('first_name', 'last_name', 'email')

@@ -1,107 +1,38 @@
 {% extends 'layout.html' %}
-
-{% block title %}Order{% endblock %}
+{% load humanize %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-lg-12">
-            {% for item in items %}
-                <div class="box-element">
-                    <br>
-                    <br>
-                    <form id="form-payed">
-                        <input type="hidden" name="id_order" value="{{ order.id }}">
-                        <table class="table">
-                            <tr>
-                                <th><h5>Numeration: <strong>{{ item.order.order_number }}</strong></h5></th>
-                                <th><h5>Total:<strong> ${{ item.get_total }}</strong></h5></th>
-                                <th>
-                                    <h5>
-                                        <div id="customer-info">
-                                            <div class="form-field">
-                                                <h3>{{ item.order.customer.first_name }}</h3>
-                                            </div>
-                                            <div class="form-field">
-                                                <h3>{{ item.order.customer.last_name }}</h3>
-                                            </div>
-                                        </div>
-                                    </h5>
-                                </th>
-                                <th>
-                                    <h5>
-                                        <div id="table-info">
-                                            Название зала: {{ item.order.table.hall_id }}
-                                            Номер стола: {{ item.order.table.place }}
-                                        </div>
-                                    </h5>
-
-                                </th>
-                                <th>
-                                    <h5>
-                                        <div id="status-info">
-                                            Статус заказа: {{ item.order.status }}
-                                        </div>
-                                    </h5>
-                                </th>
-{#                                <th>#}
-                                    {#                                    <input id="form-button-payed" class="btn btn-success" value="Оплатить">#}
-{#                                    <div class="btn btn-light list-inline rating-list" id="rating">#}
-{#                                        <i class="fa fa-star " title="Rate 5"></i>#}
-{#                                        <i class="fa fa-star " title="Rate 4"></i>#}
-{#                                        <i class="fa fa-star " title="Rate 3"></i>#}
-{#                                        <i class="fa fa-star " title="Rate 2"></i>#}
-{#                                        <i class="fa fa-star " title="Rate 1"></i>#}
-{#                                    </div>#}
-{#                                </th>#}
-                            </tr>
-                        </table>
-                    </form>
-
-                </div>
-
-                <br>
-                <div class="box-element">
-                    <div class="row">
-                        <tr>
-                            <th>
-                                <div style="flex:1" align="center"><strong>Item</strong></div>
-                            </th>
-                            <th>
-                                <div style="flex:2" align="center"><strong>Image</strong></div>
-                            </th>
-                            <th>
-                                <div style="flex:1" align="center"><strong>Price</strong></div>
-                            </th>
-                            <th>
-                                <div style="flex:1" align="center"><strong>Quantity</strong></div>
-                            </th>
-                            <th>
-                                <div style="flex:1" align="center"><strong>Total</strong></div>
-                            </th>
+    <section>
+        <div class="container pt-5">
+            <div class="text-center mt-5">
+                <h1>Заказы</h1>
+                <div class="orders mt-5">
+                    <table class="table">
+                        <thead>
+                        <tr class="table-light">
+                            <th scope="col">#</th>
+                            <th scope="col">Статус</th>
+                            <th scope="col">Создан</th>
+                            <th scope="col">Итого</th>
+                            <th scope="col">Действие</th>
                         </tr>
-                    </div>
-
+                        </thead>
+                        <tbody>
+                        {% for o in orders %}
+                            <tr>
+                                <th scope="row">{{ o.id }}</th>
+                                <td>{{ o.get_status }}</td>
+                                <td>{{ o.date_ordered|naturaltime }}</td>
+                                <td>{{ o.basket_history.total_sum|intcomma }} руб.</td>
+                                <td>
+                                    <a href="{% url 'orders:order' o.order_number %}">просмотреть</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                <div class="row">
-                    <tr>
-                        <th>
-                            <div style="flex:1" align="center"><p>{{ item.menu.title }}</p></div>
-                        </th>
-                        <th>
-                            <div style="flex:2"><img class="row-image" height="300" src="{{ item.menu.img }}"></div>
-                        </th>
-                        <th>
-                            <div style="flex:1" align="center"><p>${{ item.menu.price }}</p></div>
-                        </th>
-                        <th>
-                            <div style="flex:1" align="center"><p>{{ item.quantity }}</p></div>
-                        </th>
-                        <th>
-                            <div style="flex:1" align="center"><p>${{ item.get_total }}</p></div>
-                        </th>
-                    </tr>
-                </div>
-                </div>
-                </div>
-            {% endfor %}
+            </div>
+        </div>
+    </section>
 {% endblock %}

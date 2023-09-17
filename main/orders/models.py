@@ -3,13 +3,14 @@ import uuid
 from django.core.validators import EmailValidator
 from django.db import models
 
-from menu.models import Menu
+from menu.models import Menu, Basket
+from users.models import User
 
 
 class Customer(models.Model):
     first_name = models.CharField("Имя", max_length=30)
     last_name = models.CharField("Фамилия", max_length=50)
-    email = models.EmailField("Почта", validators=[EmailValidator], unique=True, null=True, blank=True)
+    email = models.EmailField("Почта", validators=[EmailValidator], default="example@example.com")
 
     class Meta:
         db_table = 'Customer'
@@ -61,25 +62,41 @@ class Table(models.Model):
 
 class Order(models.Model):
     category_status = (
-        ('Ожидается оплата', 'Ожидается оплата'),
-        ('Оплачено', 'Оплачено'),
+        ('Заказано', 'Заказано'),
         ('Готовится', 'Готовится'),
         ('Блюда в зале', 'Блюда в зале'),
     )
     number = 0
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    order_number = models.IntegerField(default=1)
+    id = models.UUIDField(default=uuid.uuid4, editable=False)
+    order_number = models.AutoField(primary_key=True, editable=False, default=1)
+    menu = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True, blank=True)
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
+    basket_history = models.JSONField(default=dict)
     table = models.ForeignKey(Table, on_delete=models.SET_NULL, null=True, blank=True)
-    status = models.CharField(max_length=100, choices=category_status, default=str(table))
+    status = models.CharField(max_length=100, choices=category_status, default=category_status[0][0])
     # waiter = models.ForeignKey(Waiter, on_delete=models.SET_NULL, null=True, blank=True)
     total_payment = models.IntegerField(default=0)
+    initiator = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True)
+    quantity = models.IntegerField(default=0, null=True)
 
     # tips = models.ForeignKey(Tips, on_delete=models.SET_NULL, null=True, blank=True)
 
-    def get_all_status(self):
+    def get_status(self):
         return self.category_status
+
+    def update_basket_after_order(self):
+        baskets = Basket.objects.filter(user=self.initiator)
+        self.status = self.category_status[1]
+        self.basket_history = {
+            'ordered_items': [basket.de_json() for basket in baskets],
+            'total_sum': float(baskets.total_sum())
+        }
+        baskets.delete()
+        self.save()
+
+    def get_total(self):
+        return self.quantity * self.menu.price
 
     def save(self, *args, **kwargs):
         if self._state.adding:
@@ -95,7 +112,7 @@ class Order(models.Model):
         ordering = ['-date_ordered']
 
     def __str__(self) -> str:
-        return f"{self.id}"
+        return f"{self.order_number}"
 
 
 class OrderItem(models.Model):
@@ -106,6 +123,3 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.id}"
-
-    def get_total(self):
-        return self.quantity * self.menu.price
