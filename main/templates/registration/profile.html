@@ -1,6 +1,5 @@
 {% extends 'layout.html' %}
 
-{% block title %}Profile{% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
@@ -43,12 +42,13 @@
                 </form>
                 <div class="col-lg-5">
                     <a href="{% url 'menu:basket' %}">
-                        <button class="btn btn-danger">Посмотреть корзину</button>
+                        <button class="btn btn-dark">🛒</button>
                     </a>
                 </div>
+                &nbsp
                 <div class="col-lg-5">
                     <a href="{% url 'orders:orders' %}">
-                        <button class="btn btn-danger">Посмотреть Заказы</button>
+                        <button class="btn btn-outline-danger">Посмотреть Заказы</button>
                     </a>
                 </div>
             </div>

@@ -29,6 +29,7 @@ class OrderListView(TitleMixin, ListView):
         context['baskets'] = Basket.objects.filter(user=self.request.user)
         return context
 
+
 class OrderDetailView(DetailView):
     template_name = 'order/order.html'
     model = Order

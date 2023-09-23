@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 
-{% block title %}Menu{% endblock %}
+{#{% block title %}Menu{% endblock %}#}
 
 {% block content %}
     <h1 align="center">Menu</h1>
@@ -19,6 +19,8 @@
                             <h5 class="card-title">{{ menu.title }}</h5>
                             {% if menu.the_dish %}
                                 <p class="card-text">Состав: {{ menu.the_dish }}</p>
+                            {% else %}
+                                <p class="card-text">Состав: в разработке...</p>
                             {% endif %}
                             <p class="card-text">{{ menu.weight }} гр</p>
                             <p class="card-text">{{ menu.price|floatformat:"0" }} руб.</p>

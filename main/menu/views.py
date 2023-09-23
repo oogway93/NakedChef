@@ -4,22 +4,26 @@ from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 
 from .models import Menu, Basket
+from utils.views import TitleMixin
 
 
-class MenuListView(ListView):
+class MenuListView(TitleMixin, ListView):
     model = Menu
     context_object_name = 'menu_list'
     template_name = 'menu/menu_list.html'
+    title = 'Menu'
 
 
 def mainPage(request):
-    return render(request, 'main.html')
+    context = {'title': 'Вкусная еда каждому!'}
+    return render(request, 'main.html', context=context)
 
 
 @login_required
 def basket(request):
     user = request.user
-    context = {'baskets': Basket.objects.filter(user=user)}
+    context = {'baskets': Basket.objects.filter(user=user),
+               'title': f'Корзина для {user}'}
     return render(request, 'menu/basket.html', context=context)
 
 

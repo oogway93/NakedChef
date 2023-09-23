@@ -9,10 +9,12 @@ from orders.models import Order
 from .forms import UserCreationForm, UserProfileForm
 from .models import User
 from menu.models import Basket
+from utils.views import TitleMixin
 
 
-class Register(View):
+class Register(TitleMixin, View):
     template_name = 'registration/register.html'
+    title = 'Регистрация аккаунта'
 
     def get(self, request):
         context = {
@@ -35,15 +37,14 @@ class Register(View):
         return render(request, self.template_name, context)
 
 
-class UserProfileView(UpdateView):
+class UserProfileView(TitleMixin, UpdateView):
     model = User
     form_class = UserProfileForm
     template_name = 'registration/profile.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['basket'] = Basket.objects.all()
-        # context['order'] = Order.objects
+        context['title'] = f'Профиль: {self.request.user}'
         return context
 
     def get_success_url(self):
