@@ -5,7 +5,7 @@
     <section>
         <div class="container pt-5">
             <div class="text-center mt-5">
-                <h1>Заказ #{{ object.pk }}</h1>
+                <h1>Заказ #{{ object.id }}</h1>
                 <div class="orders mt-5">
                     <table class="table">
                         <thead>
@@ -16,20 +16,22 @@
                             <th scope="col">Сумма</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        {% for ord in object_list %}
+                        {% for o in orders %}
+                            <tbody>
+
                             <tr>
                                 <th scope="row">
-                                    {{ object.title }}
+                                    {{ o.menu.title }}
                                 </th>
-                                <td>{{ object.get_status }}</td>
-                                <td>{{ object.menu.price|intcomma }} руб.</td>
-                                <td>{{ object.get_total|intcomma }} руб.</td>
+                                <td>{{ o.quantity }}</td>
+                                <td>{{ o.menu.price|intcomma }} руб.</td>
+                                <td>{{ o.sum|intcomma }} руб.</td>
                             </tr>
+
+                            </tbody>
+                            </table>
+                            <p class="float-right h4 mt-3">Итого {{ o.sum|intcomma }} руб.</p>
                         {% endfor %}
-                        </tbody>
-                    </table>
-                    <p class="float-right h4 mt-3">Итого {{ object.basket_history.total_sum|intcomma }} руб.</p>
                 </div>
             </div>
         </div>

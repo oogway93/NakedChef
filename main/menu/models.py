@@ -62,9 +62,10 @@ class Menu(models.Model):
                                          MaxLengthValidator(30, message="Too much... Give a title shorter")],
                              unique=True)
     the_dish = models.TextField(verbose_name='Состав блюда', null=True, blank=True)
+    quantity = models.IntegerField(default=0, null=True)
     price = models.DecimalField(verbose_name='Цена', max_digits=7, decimal_places=2, default=0,
                                 help_text="Prices in RUB")
-    # amount = models.PositiveIntegerField(default=0)
+    # stripe_product_price_id = models.CharField(max_length=128, null=True, blank=True)
     weight = models.IntegerField(verbose_name='Вес', default=100, help_text="Mention in grammes")
     img = models.URLField(verbose_name='Картинка',
                           default="https://nakedchef-fmr.ru/images/logo.png")
@@ -77,6 +78,18 @@ class Menu(models.Model):
     def __str__(self):
         return f'{self.section}: {self.title}'
 
+    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+    #     if not self.stripe_product_price_id:
+    #         stripe_product_price = self.create_stripe_product_price()
+    #         self.stripe_product_price_id = stripe_product_price['id']
+    #     super(Product, self).save(force_insert=False, force_update=False, using=None, update_fields=None)
+    #
+    # def create_stripe_product_price(self):
+    #     stripe_product = stripe.Product.create(name=self.name)
+    #     stripe_product_price = stripe.Price.create(
+    #         product=stripe_product['id'], unit_amount=round(self.price * 100), currency='rub')
+    #     return stripe_product_price
+
 
 class BasketQuerySet(models.QuerySet):
     def total_sum(self):
@@ -84,6 +97,16 @@ class BasketQuerySet(models.QuerySet):
 
     def total_quantity(self):
         return sum(basket.quantity for basket in self)
+
+    def stripe_products(self):
+        line_items = []
+        for basket in self:
+            item = {
+                'price': basket.product.stripe_product_price_id,
+                'quantity': basket.quantity,
+            }
+            line_items.append(item)
+        return line_items
 
 
 class Basket(models.Model):
@@ -102,29 +125,29 @@ class Basket(models.Model):
 
     def de_json(self):
         basket_item = {
-            "title": self.menu.title,
-            "quantity": self.quantity,
-            "price": float(self.menu.price),
-            "sum": float(self.sum())
+            'product_name': self.menu.title,
+            'quantity': self.quantity,
+            'price': float(self.menu.price),
+            'sum': float(self.sum()),
         }
         return basket_item
 
-    class Meta:
-        db_table = 'Basket'
-        verbose_name = 'Basket'
-        verbose_name_plural = 'Baskets'
-
     @classmethod
-    def create_or_update(cls, menu_id, user):
-        baskets = Basket.objects.filter(user=user, menu_id=menu_id)
+    def create_or_update(cls, order_id, user):
+        baskets = Basket.objects.filter(user=user, order_id=order_id)
 
         if not baskets.exists():
-            obj = Basket.objects.create(user=user, menu_id=menu_id, quantity=1)
+            obj = Basket.objects.create(user=user, order_id=order_id, quantity=1)
             is_created = True
             return obj, is_created
         else:
             basket = baskets.first()
             basket.quantity += 1
             basket.save()
-            is_created = False
-            return basket, is_created
+            is_crated = False
+            return basket, is_crated
+
+    class Meta:
+        db_table = 'Basket'
+        verbose_name = 'Basket'
+        verbose_name_plural = 'Baskets'

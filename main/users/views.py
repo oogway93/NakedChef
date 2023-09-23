@@ -27,7 +27,7 @@ class Register(View):
             user = form.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, 'Успешная регистрация!')
-            return redirect('main')
+            return redirect('menu:main')
         context = {
             'form': form
         }

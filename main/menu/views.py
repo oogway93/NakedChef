@@ -19,7 +19,7 @@ def mainPage(request):
 @login_required
 def basket(request):
     user = request.user
-    context = {'baskets': Basket.objects.filter(user=user) if user.is_authenticated else []}
+    context = {'baskets': Basket.objects.filter(user=user)}
     return render(request, 'menu/basket.html', context=context)
 
 
