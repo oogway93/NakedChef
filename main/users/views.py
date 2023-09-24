@@ -5,10 +5,8 @@ from django.views import View
 from django.contrib import messages
 from django.views.generic import UpdateView
 
-from orders.models import Order
 from .forms import UserCreationForm, UserProfileForm
 from .models import User
-from menu.models import Basket
 from utils.views import TitleMixin
 
 

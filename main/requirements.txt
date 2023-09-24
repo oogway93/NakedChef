@@ -114,6 +114,7 @@ fierce==1.5.0
 filedepot==0.5.2
 filelock==3.12.2
 filteralchemy==0.1.0
+flake8==6.1.0
 flasgger==0.9.5
 Flask==2.2.2
 Flask-Classful==0.15.0.dev1
@@ -203,6 +204,7 @@ marshmallow-sqlalchemy==0.29.0
 masky==0.1.1
 matplotlib==3.6.3
 matplotlib-inline==0.1.6
+mccabe==0.7.0
 mdurl==0.1.2
 mechanize==0.4.8
 minidump==0.0.21
@@ -278,6 +280,7 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycairo==1.24.0
 pycares==4.3.0
+pycodestyle==2.11.0
 pycparser==2.21
 pycryptodomex==3.11.0
 pycups==2.0.1
@@ -288,6 +291,7 @@ pydot==1.4.2
 pyee==9.0.4
 pyExploitDb==0.2.6
 pyfiglet==0.8.post0
+pyflakes==3.1.0
 pygame==2.5.1
 pygexf==0.2.2
 Pygments==2.15.1

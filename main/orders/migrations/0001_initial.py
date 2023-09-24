@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -23,10 +22,18 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(default='example@example.com', max_length=256)),
                 ('basket_history', models.JSONField(default=dict)),
                 ('created', models.DateTimeField(auto_now_add=True)),
-                ('place', models.CharField(choices=[('A1', 'A1'), ('A2', 'A2'), ('A3', 'A3'), ('B1', 'B1'), ('B2', 'B2'), ('B3', 'B3')], default='A1', help_text='A(1-3) или B(1-3)', max_length=20, verbose_name='ID стола')),
-                ('hall', models.CharField(choices=[('Зал 1', 'Зал 1'), ('Зал 2', 'Зал 2'), ('VIP lounge', 'VIP lounge'), ('Тераса', 'Тераса')], default='Зал 1', help_text='Зал 1/Зал2/VIP lounge/Тераса', max_length=20, verbose_name='Место')),
-                ('status', models.SmallIntegerField(choices=[('Создан', 'Создан'), ('Оплачен', 'Оплачен'), ('В пути', 'В пути'), ('Доставлен', 'Доставлен')], default='Создан')),
-                ('initiator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('place', models.CharField(
+                    choices=[('A1', 'A1'), ('A2', 'A2'), ('A3', 'A3'), ('B1', 'B1'), ('B2', 'B2'), ('B3', 'B3')],
+                    default='A1', help_text='A(1-3) или B(1-3)', max_length=20, verbose_name='ID стола')),
+                ('hall', models.CharField(choices=[('Зал 1', 'Зал 1'), ('Зал 2', 'Зал 2'), ('VIP lounge', 'VIP lounge'),
+                                                   ('Тераса', 'Тераса')], default='Зал 1',
+                                          help_text='Зал 1/Зал2/VIP lounge/Тераса', max_length=20,
+                                          verbose_name='Место')),
+                ('status', models.SmallIntegerField(
+                    choices=[('Создан', 'Создан'), ('Оплачен', 'Оплачен'), ('В пути', 'В пути'),
+                             ('Доставлен', 'Доставлен')], default='Создан')),
+                ('initiator',
+                 models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'verbose_name': 'Order',

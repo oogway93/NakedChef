@@ -1,12 +1,7 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
-from django.views import View
-from django.contrib.auth import login
-from django.shortcuts import render, redirect
-from django.contrib import messages
+from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
 from utils.views import TitleMixin
@@ -19,7 +14,7 @@ class OrderListView(TitleMixin, ListView):
     template_name = 'order/order_list.html'
     title = 'Store - Заказы'
     queryset = Order.objects.all()
-    ordering = ('-created')
+    ordering = '-created'
 
     def get_queryset(self):
         queryset = super(OrderListView, self).get_queryset()
@@ -34,10 +29,6 @@ class OrderListView(TitleMixin, ListView):
 class SuccessTemplateView(TitleMixin, TemplateView):
     template_name = 'order/success.html'
     title = 'NakedChef - Спасибо за заказ!'
-
-
-# class CanceledTemplateView(TitleMixin, TemplateView):
-#     template_name = ''
 
 
 class OrderDetailView(DetailView):

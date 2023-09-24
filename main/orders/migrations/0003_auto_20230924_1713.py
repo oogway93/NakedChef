@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('orders', '0002_alter_order_status'),
     ]
@@ -18,16 +17,21 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='order',
             name='email',
-            field=models.EmailField(default='example@example.com', max_length=256, validators=[django.core.validators.EmailValidator]),
+            field=models.EmailField(default='example@example.com', max_length=256,
+                                    validators=[django.core.validators.EmailValidator]),
         ),
         migrations.AlterField(
             model_name='order',
             name='first_name',
-            field=models.CharField(max_length=64, validators=[django.core.validators.MinLengthValidator(2, message='The first name should contains min 2 letters')], verbose_name='Имя'),
+            field=models.CharField(max_length=64, validators=[
+                django.core.validators.MinLengthValidator(2, message='The first name should contains min 2 letters')],
+                                   verbose_name='Имя'),
         ),
         migrations.AlterField(
             model_name='order',
             name='last_name',
-            field=models.CharField(max_length=64, validators=[django.core.validators.MinLengthValidator(4, 'The last name should contains min 4 letters')], verbose_name='Фамилия'),
+            field=models.CharField(max_length=64, validators=[
+                django.core.validators.MinLengthValidator(4, 'The last name should contains min 4 letters')],
+                                   verbose_name='Фамилия'),
         ),
     ]

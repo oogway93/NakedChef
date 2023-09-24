@@ -2,7 +2,6 @@ from django.core.validators import MinLengthValidator
 from django.core.validators import EmailValidator
 from django.db import models
 
-from menu.models import Menu, Basket
 from users.models import User
 
 

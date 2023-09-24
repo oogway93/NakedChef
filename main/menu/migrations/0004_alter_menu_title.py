@@ -6,7 +6,6 @@ import menu.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('menu', '0003_alter_menu_title'),
     ]
@@ -15,6 +14,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='menu',
             name='title',
-            field=models.CharField(max_length=30, unique=True, validators=[menu.models.Validator.validatorStringIsCapitalize, django.core.validators.MinLengthValidator(2, message='Min length must be more than 2 letters'), django.core.validators.MaxLengthValidator(30, message='Too much... Give a title shorter')], verbose_name='Название блюда'),
+            field=models.CharField(max_length=30, unique=True,
+                                   validators=[menu.models.Validator.validatorStringIsCapitalize,
+                                               django.core.validators.MinLengthValidator(2,
+                                                                                         message='Min length must be more than 2 letters'),
+                                               django.core.validators.MaxLengthValidator(30,
+                                                                                         message='Too much... Give a title shorter')],
+                                   verbose_name='Название блюда'),
         ),
     ]

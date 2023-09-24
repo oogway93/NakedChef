@@ -3,7 +3,6 @@ import string
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import MinLengthValidator, MaxLengthValidator
-from django.http import HttpResponseRedirect
 
 from users.models import User
 
@@ -62,10 +61,8 @@ class Menu(models.Model):
                                          MaxLengthValidator(30, message="Too much... Give a title shorter")],
                              unique=True)
     the_dish = models.TextField(verbose_name='Состав блюда', null=True, blank=True)
-    quantity = models.IntegerField(default=0, null=True)
     price = models.DecimalField(verbose_name='Цена', max_digits=7, decimal_places=2, default=0,
                                 help_text="Prices in RUB")
-    # stripe_product_price_id = models.CharField(max_length=128, null=True, blank=True)
     weight = models.IntegerField(verbose_name='Вес', default=100, help_text="Mention in grammes")
     img = models.URLField(verbose_name='Картинка',
                           default="https://nakedchef-fmr.ru/images/logo.png")

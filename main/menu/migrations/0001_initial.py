@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -16,7 +15,9 @@ class Migration(migrations.Migration):
             name='Section',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('section', models.CharField(help_text='Choose: Main  dishes, Appetizers, Soups, Salads, Steaks, Desserts or Beverages', max_length=30, unique=True, verbose_name='Разделы кухни')),
+                ('section', models.CharField(
+                    help_text='Choose: Main  dishes, Appetizers, Soups, Salads, Steaks, Desserts or Beverages',
+                    max_length=30, unique=True, verbose_name='Разделы кухни')),
             ],
             options={
                 'verbose_name': 'Section',
@@ -30,7 +31,8 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=50, unique=True, verbose_name='Название блюда')),
                 ('the_dish', models.TextField(blank=True, null=True, verbose_name='Состав блюда')),
-                ('price', models.DecimalField(decimal_places=2, default=0, help_text='Prices in RUB', max_digits=7, verbose_name='Цена')),
+                ('price', models.DecimalField(decimal_places=2, default=0, help_text='Prices in RUB', max_digits=7,
+                                              verbose_name='Цена')),
                 ('weight', models.IntegerField(default=100, help_text='Mention in grammes', verbose_name='Вес')),
                 ('img', models.URLField(default='https://nakedchef-fmr.ru/images/logo.png', verbose_name='Картинка')),
                 ('section', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='menu.section')),
