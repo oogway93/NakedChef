@@ -133,11 +133,11 @@ class Basket(models.Model):
         return basket_item
 
     @classmethod
-    def create_or_update(cls, order_id, user):
-        baskets = Basket.objects.filter(user=user, order_id=order_id)
+    def create_or_update(cls, menu_id, user):
+        baskets = Basket.objects.filter(user=user, menu_id=menu_id)
 
         if not baskets.exists():
-            obj = Basket.objects.create(user=user, order_id=order_id, quantity=1)
+            obj = Basket.objects.create(user=user, menu_id=menu_id, quantity=1)
             is_created = True
             return obj, is_created
         else:

@@ -1,9 +1,9 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, View
 from django.contrib.auth.decorators import login_required
 
-from .models import Menu, Basket
+from .models import Menu, Basket, Section
 from utils.views import TitleMixin
 
 

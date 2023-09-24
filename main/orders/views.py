@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from django.views import View
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
@@ -30,6 +30,15 @@ class OrderListView(TitleMixin, ListView):
         return context
 
 
+class SuccessTemplateView(TitleMixin, TemplateView):
+    template_name = 'order/success.html'
+    title = 'NakedChef - Спасибо за заказ!'
+
+
+# class CanceledTemplateView(TitleMixin, TemplateView):
+#     template_name = ''
+
+
 class OrderDetailView(DetailView):
     template_name = 'order/order.html'
     model = Order
@@ -39,11 +48,6 @@ class OrderDetailView(DetailView):
         context['title'] = f'Store - Заказ #{self.object.id}'
         context['orders'] = Basket.objects.filter(user=self.request.user)
         return context
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(OrderDetailView, self).get_context_data(**kwargs)
-    #     context['order'] = Basket.objects.filter()
-    #     return context
 
 
 class OrderCreateView(TitleMixin, CreateView):
@@ -61,48 +65,12 @@ class OrderCreateView(TitleMixin, CreateView):
         context['baskets'] = Basket.objects.filter(user=self.request.user) if self.request.user.is_authenticated else []
         return context
 
+    def post(self, request, *args, **kwargs):
+        super(OrderCreateView, self).post(request, *args, **kwargs)
+        return redirect('orders:success')
+
 
 def fulfill_order(session):
     order_id = int(session.metadata.order_id)
     order = Order.objects.get(id=order_id)
     order.update_after_payment()
-
-# def createOrder(request):
-#     form = OrderForm()
-#     if request.method == 'POST':
-#         # print('Printing POST:',request.POST)
-#         form = OrderForm(request.POST)
-#         # form handles the process of saving to database/
-#         if form.is_valid():
-#             form.save()  # Here
-#             return redirect('menu:main')
-#     context = {'form': form,
-#                'baskets': Basket.objects.filter(user=request.user) if request.user.is_authenticated else []}
-#     return render(request, 'order/order_create.html', context)
-
-# class OrderCreationView(View):
-#     template_name = 'order/order_create.html'
-#
-#     def get(self, request):
-#         context = {
-#             'form': OrderForm()
-#         }
-#         return render(request, self.template_name, context)
-#
-#     def post(self, request):
-#         form = OrderForm(request.POST)
-#
-#         if form.is_valid():
-#             user = form.save()
-#             login(request, user,)
-#             messages.success(request, 'Заказ создан!')
-#             return redirect('menu:main')
-#         context = {
-#             'form': form
-#         }
-#         messages.error(request, 'Провал при выполнении заказа!')
-#         return render(request, self.template_name, context)
-
-# def create_order(request):
-#     if request.method == 'POST':
-#         form
