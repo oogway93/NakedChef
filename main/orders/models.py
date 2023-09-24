@@ -1,5 +1,4 @@
-import uuid
-
+from django.core.validators import MinLengthValidator
 from django.core.validators import EmailValidator
 from django.db import models
 
@@ -90,12 +89,15 @@ class Order(models.Model):
         (DELIVERED, 'Доставлен'),
     )
 
-    first_name = models.CharField("Имя", max_length=64)
-    last_name = models.CharField("Фамилия", max_length=64)
-    email = models.EmailField(max_length=256, default="example@example.com")
-    basket_history = models.JSONField(default=dict)
+    first_name = models.CharField("Имя", max_length=64,
+                                  validators=[
+                                      MinLengthValidator(2, message='The first name should contains min 2 letters')])
+    last_name = models.CharField("Фамилия", max_length=64,
+                                 validators=[MinLengthValidator(4, 'The last name should contains min 4 letters')])
+    email = models.EmailField(max_length=256, validators=[EmailValidator], default="example@example.com")
     created = models.DateTimeField(auto_now_add=True)
-    place = models.CharField('ID стола', max_length=20, default=TABLES[0][0], choices=TABLES, help_text="A(1-3) или B(1-3)")
+    place = models.CharField('ID стола', max_length=20, default=TABLES[0][0], choices=TABLES,
+                             help_text="A(1-3) или B(1-3)")
     hall = models.CharField('Место', max_length=20, default=CATEGORIES_HALL[0][0],
                             choices=CATEGORIES_HALL,
                             help_text="Зал 1/Зал2/VIP lounge/Тераса")
@@ -104,8 +106,6 @@ class Order(models.Model):
 
     def get_status(self):
         return self.status
-
-
 
     class Meta:
         db_table = 'Order'

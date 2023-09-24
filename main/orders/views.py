@@ -7,6 +7,7 @@ from django.views import View
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from utils.views import TitleMixin
 from .forms import OrderForm
@@ -68,6 +69,13 @@ class OrderCreateView(TitleMixin, CreateView):
     def post(self, request, *args, **kwargs):
         super(OrderCreateView, self).post(request, *args, **kwargs)
         return redirect('orders:success')
+
+
+@login_required
+def remove_order(request, order_id):
+    order = Order.objects.get(id=order_id)
+    order.delete()
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 def fulfill_order(session):

@@ -23,7 +23,10 @@
                                 <td>{{ order.get_status_display }}</td>
                                 <td>{{ order.created|naturaltime }}</td>
                                 <td>
-                                    <a href="{% url 'orders:order' order.id %}">просмотреть</a>
+                                    <a href="{% url 'orders:order' order.id %}">Просмотреть</a>
+                                </td>
+                                <td>
+                                    <a href="{% url 'orders:removed_order' order.id %}">❌</a>
                                 </td>
                             </tr>
                         {% endfor %}
