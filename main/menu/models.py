@@ -75,18 +75,6 @@ class Menu(models.Model):
     def __str__(self):
         return f'{self.section}: {self.title}'
 
-    # def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
-    #     if not self.stripe_product_price_id:
-    #         stripe_product_price = self.create_stripe_product_price()
-    #         self.stripe_product_price_id = stripe_product_price['id']
-    #     super(Product, self).save(force_insert=False, force_update=False, using=None, update_fields=None)
-    #
-    # def create_stripe_product_price(self):
-    #     stripe_product = stripe.Product.create(name=self.name)
-    #     stripe_product_price = stripe.Price.create(
-    #         product=stripe_product['id'], unit_amount=round(self.price * 100), currency='rub')
-    #     return stripe_product_price
-
 
 class BasketQuerySet(models.QuerySet):
     def total_sum(self):
