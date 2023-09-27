@@ -1,6 +1,11 @@
 from rest_framework import fields, serializers
-
 from .models import Section, Menu
+
+
+class SectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Section
+        fields = ('section',)
 
 
 class MenuSerializer(serializers.ModelSerializer):
