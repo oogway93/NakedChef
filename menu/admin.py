@@ -15,4 +15,3 @@ class MenuAdmin(admin.ModelAdmin):
         'the_dish',
         ('price', 'weight'),
         'img')
-

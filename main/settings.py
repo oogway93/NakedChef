@@ -18,8 +18,8 @@ INTERNAL_IPS = [
     '127.0.0.1',
     'localhost',
 ]
-# Application definition
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
