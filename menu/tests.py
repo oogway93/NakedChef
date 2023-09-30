@@ -1,6 +1,6 @@
-import status
 from django.test import TestCase
 from django.urls import reverse, resolve
+from rest_framework import status
 
 from menu.models import Section, Menu
 from menu.views import MenuListView
