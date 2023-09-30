@@ -1,6 +1,8 @@
 # NakedChef
+
 ### *__NakedChef__* is a restaurant with lots of different and delecious food.
-1. Firstly, you need to make an local environment and activate it 
+
+1. Firstly, you need to make an local environment and activate it
    ```python
    python -m venv venv
    source venv/bin/activate
@@ -24,7 +26,7 @@
    ```python
    python manage.py makemigrations
    python manage.py migrate
-3. Finally, you can start the project due a command 
+3. Finally, you can start the project due a command
     ```
     python manage.py runserver
 
