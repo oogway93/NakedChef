@@ -1,9 +1,8 @@
 from django.test import TestCase
-from django.urls import reverse, resolve
+from django.urls import reverse
 from rest_framework import status
 
 from menu.models import Section, Menu
-from menu.views import MenuListView
 
 
 class MainTest(TestCase):
@@ -45,7 +44,6 @@ class MenuTest(TestCase):
                     'price': 550, 'weight': 300}
         dish3 = Menu.objects.create(**new_item)
         dish3.save()
-        all_dishes = Menu.objects.all()
 
         list_menu = Menu.objects.all()
         self.assertEqual(list_menu.count(), 3)

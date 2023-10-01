@@ -1,4 +1,4 @@
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 
@@ -16,7 +16,6 @@ class UserTest(TestCase):
         self.path_login = reverse('users:login')
 
     def test_login_post(self):
-        username = {'username': 'root'}
         response = self.client.post(self.path_login, {'username': 'root', 'password': '12345'})
         response2 = self.client.post(self.path_login,
                                      {'username': self.data['username'], 'password': self.data['password']})

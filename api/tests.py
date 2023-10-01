@@ -1,6 +1,4 @@
-from django.urls import reverse
-from rest_framework.test import APITestCase, APIRequestFactory
-from rest_framework import status
+from rest_framework.test import APITestCase
 from api.views import MenuModelViewSet, OrderModelViewSet
 
 
