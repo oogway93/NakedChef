@@ -10,6 +10,7 @@ from utils.views import TitleMixin
 class MenuListView(TitleMixin, ListView):
     model = Menu
     context_object_name = 'menu_list'
+    paginate_by = 3
     template_name = 'menu/menu_list.html'
     title = 'Menu'
 
