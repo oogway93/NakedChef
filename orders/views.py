@@ -63,7 +63,7 @@ class OrderCreateView(TitleMixin, CreateView):
 
 
 @login_required
-def remove_order(request, order_id):
+def remove_order(request, order_id: int):
     order = Order.objects.get(id=order_id)
     order.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])

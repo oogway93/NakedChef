@@ -1,4 +1,4 @@
-#!/home/oogway93/PycharmProjects/NakedChef/main/venv/bin/python3
+#!/home/oogway93/PycharmProjects/NakedChef/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

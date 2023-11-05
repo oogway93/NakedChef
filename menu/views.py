@@ -29,14 +29,14 @@ def basket(request):
 
 
 @login_required
-def basket_add(request, menu_id):
+def basket_add(request, menu_id: int):
     user = request.user
     Basket.create_or_update(menu_id, user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 @login_required
-def basket_remove(request, basket_id):
+def basket_remove(request, basket_id: int):
     basket = Basket.objects.get(id=basket_id)
     basket.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
