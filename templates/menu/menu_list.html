@@ -3,53 +3,97 @@
 {% block content %}
     <h1 align="center">Menu</h1>
     <hr>
-    <div class="container text-center">
-        <div class="row">
-            <div class="col-sm">
-                <div class="card h-100">
-                    {% for menu in page_obj %}
-
-                        <h2>{{ menu.section }}</h2>
-                        <br>
-                        <img class="card-img-top" src="{{ menu.img }}" alt="{{ menu.title }}">
-
-                        <div class="card-body">
-                            <h5 class="card-title">{{ menu.title }}</h5>
-                            {% if menu.the_dish %}
-                                <p class="card-text">Состав: {{ menu.the_dish }}</p>
-                            {% else %}
-                                <p class="card-text">Состав: в разработке...</p>
-                            {% endif %}
-                            <p class="card-text">{{ menu.weight }} гр</p>
-                            <p class="card-text">{{ menu.price|floatformat:"0" }} руб.</p>
-                            <a href="{% url 'menu:basket_add' menu.id %}" class="btn btn-primary">Add to cart</a>
-                        </div>
-
-                        &nbsp&nbsp
-
-                    {% endfor %}
-                    <nav aria-label="Page navigation example" >
-                        <ul class="pagination">
-                            {% if page_obj.has_previous %}
-                                <li class="page-item"><a href="?page=1" class="page-link">&laquo; first</a></li>
-                                <li class="page-item"><a class="page-link"
-                                                         href="?page={{ page_obj.previous_page_number }}">previous</a>
-                                </li>
-                            {% endif %}
-                            <li class="page-item">
-                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                            </li>
-                            {% if page_obj.has_next %}
-                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
-                                </li>
-                                <li class="page-item"><a class="page-link"
-                                                         href="?page={{ page_obj.paginator.num_pages }}">last
-                                    &raquo;</a></li>
-                            {% endif %}
-                        </ul>
-                    </nav>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for menu in page_obj %}
+            <div class="col">
+                <div class="card">
+                    <img class="card-img-top" src="{{ menu.img }}" alt="{{ menu.title }}" height="400">
+                    <hr>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ menu.title }}</h5>
+                        {% if menu.the_dish %}
+                            <p class="card-text">Состав: {{ menu.the_dish }}</p>
+                        {% else %}
+                            <p class="card-text">Состав: в разработке...</p>
+                        {% endif %}
+                        <p class="card-text">{{ menu.weight }} гр</p>
+                        <p class="card-text">{{ menu.price|floatformat:"0" }} руб.</p>
+                        <a href="{% url 'menu:basket_add' menu.id %}" class="btn btn-primary">Add to cart</a>
+                    </div>
                 </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item"><a href="?page=1" class="page-link">&laquo; first</a></li>
+                            <li class="page-item"><a class="page-link"
+                                                     href="?page={{ page_obj.previous_page_number }}">previous</a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item">
+                            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                        </li>
+                        {% if page_obj.has_next %}
+                            <li class="page-item"><a class="page-link"
+                                                     href="?page={{ page_obj.next_page_number }}">next</a>
+                            </li>
+                            <li class="page-item"><a class="page-link"
+                                                     href="?page={{ page_obj.paginator.num_pages }}">last
+                                &raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
             </div>
-        </div>
+        {% endfor %}
     </div>
+
+
+    {#    <div class="container text-center">#}
+    {#        <div class="row">#}
+    {#            <div class="col-sm">#}
+    {#                <div class="card h-100">#}
+    {#                    {% for menu in page_obj %}#}
+    {##}
+    {#                        <h2>{{ menu.section }}</h2>#}
+    {#                        <br>#}
+    {#                        <img class="card-img-top" src="{{ menu.img }}" alt="{{ menu.title }}">#}
+    {##}
+    {#                        <div class="card-body">#}
+    {#                            <h5 class="card-title">{{ menu.title }}</h5>#}
+    {#                            {% if menu.the_dish %}#}
+    {#                                <p class="card-text">Состав: {{ menu.the_dish }}</p>#}
+    {#                            {% else %}#}
+    {#                                <p class="card-text">Состав: в разработке...</p>#}
+    {#                            {% endif %}#}
+    {#                            <p class="card-text">{{ menu.weight }} гр</p>#}
+    {#                            <p class="card-text">{{ menu.price|floatformat:"0" }} руб.</p>#}
+    {#                            <a href="{% url 'menu:basket_add' menu.id %}" class="btn btn-primary">Add to cart</a>#}
+    {#                        </div>#}
+    {##}
+    {#                        &nbsp&nbsp#}
+    {##}
+    {#                    {% endfor %}#}
+    {#                    <nav aria-label="Page navigation example">#}
+    {#                        <ul class="pagination">#}
+    {#                            {% if page_obj.has_previous %}#}
+    {#                                <li class="page-item"><a href="?page=1" class="page-link">&laquo; first</a></li>#}
+    {#                                <li class="page-item"><a class="page-link"#}
+    {#                                                         href="?page={{ page_obj.previous_page_number }}">previous</a>#}
+    {#                                </li>#}
+    {#                            {% endif %}#}
+    {#                            <li class="page-item">#}
+    {#                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.#}
+    {#                            </li>#}
+    {#                            {% if page_obj.has_next %}#}
+    {#                                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>#}
+    {#                                </li>#}
+    {#                                <li class="page-item"><a class="page-link"#}
+    {#                                                         href="?page={{ page_obj.paginator.num_pages }}">last#}
+    {#                                    &raquo;</a></li>#}
+    {#                            {% endif %}#}
+    {#                        </ul>#}
+    {#                    </nav>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
 {% endblock %}

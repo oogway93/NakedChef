@@ -1,5 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
@@ -10,6 +12,7 @@ from .models import Order
 from menu.models import Basket
 
 
+@method_decorator(cache_page(timeout=60 * 30), name='dispatch')
 class OrderListView(TitleMixin, ListView):
     template_name = 'order/order_list.html'
     title = 'Store - Заказы'
@@ -31,6 +34,7 @@ class SuccessTemplateView(TitleMixin, TemplateView):
     title = 'NakedChef - Спасибо за заказ!'
 
 
+@method_decorator(cache_page(timeout=60 * 30), name='dispatch')
 class OrderDetailView(DetailView):
     template_name = 'order/order.html'
     model = Order
@@ -42,6 +46,7 @@ class OrderDetailView(DetailView):
         return context
 
 
+@method_decorator(cache_page(timeout=60 * 30), name='dispatch')
 class OrderCreateView(TitleMixin, CreateView):
     template_name = 'order/order_create.html'
     form_class = OrderForm
@@ -62,6 +67,7 @@ class OrderCreateView(TitleMixin, CreateView):
         return redirect('orders:success')
 
 
+@cache_page(timeout=60 * 15)
 @login_required
 def remove_order(request, order_id: int):
     order = Order.objects.get(id=order_id)

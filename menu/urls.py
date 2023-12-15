@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import MenuListView, mainPage, basket_add, basket, basket_remove
 
 app_name = 'menu'

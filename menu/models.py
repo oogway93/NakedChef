@@ -95,6 +95,11 @@ class BasketQuerySet(models.QuerySet):
 
 
 class Basket(models.Model):
+    class Meta:
+        db_table = 'Basket'
+        verbose_name = 'Basket'
+        verbose_name_plural = 'Baskets'
+
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     menu = models.ForeignKey(to=Menu, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(default=0)
@@ -131,8 +136,3 @@ class Basket(models.Model):
             basket.save()
             is_crated = False
             return basket, is_crated
-
-    class Meta:
-        db_table = 'Basket'
-        verbose_name = 'Basket'
-        verbose_name_plural = 'Baskets'
