@@ -1,11 +1,8 @@
-from django.contrib.auth import login, authenticate
-from django.http import HttpResponseRedirect
+from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
 from django.views import View
 from django.contrib import messages
-from django.views.decorators.cache import cache_page
 from django.views.generic import UpdateView
 
 from .forms import UserCreationForm, UserProfileForm
