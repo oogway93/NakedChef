@@ -10,6 +10,7 @@ from django.views.generic import UpdateView
 from .forms import UserCreationForm, UserProfileForm
 from .models import User
 from utils.views import TitleMixin
+from users.tasks import send_contact_email_message_task
 
 
 @method_decorator(cache_page(timeout=60 * 30), name='dispatch')
@@ -30,6 +31,7 @@ class Register(TitleMixin, View):
             user = form.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, 'Успешная регистрация!')
+            send_contact_email_message_task.delay("Greetings!", self.request.user.id)
             return redirect('menu:main')
         context = {
             'form': form
