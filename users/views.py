@@ -32,7 +32,7 @@ class Register(TitleMixin, View):
             user = form.save()
             login(request, user)
             messages.success(request, 'Успешная регистрация!')
-            # send_contact_email_message_task.delay("Greetings!", self.request.user.id)
+            send_contact_email_message_task.delay("Greetings!", self.request.user.id)
             return redirect('menu:main')
         context = {
             'form': form
