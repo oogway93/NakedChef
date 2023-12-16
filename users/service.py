@@ -16,4 +16,5 @@ def send_contact_email_message(subject, user_id):
                          render_to_string("celery/email.html", {"name": user.first_name}),
                          settings.EMAIL_HOST_USER,
                          [user.email])
+    email.content_subtype = 'html'
     email.send()

@@ -13,7 +13,7 @@ from utils.views import TitleMixin
 from users.tasks import send_contact_email_message_task
 
 
-@method_decorator(cache_page(timeout=60 * 30), name='dispatch')
+# @method_decorator(cache_page(timeout=60 * 30), name='dispatch')
 class Register(TitleMixin, View):
     template_name = 'registration/register.html'
     title = 'Регистрация аккаунта'
