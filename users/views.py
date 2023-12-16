@@ -1,4 +1,5 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -29,9 +30,9 @@ class Register(TitleMixin, View):
 
         if form.is_valid():
             user = form.save()
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            login(request, user)
             messages.success(request, 'Успешная регистрация!')
-            send_contact_email_message_task.delay("Greetings!", self.request.user.id)
+            # send_contact_email_message_task.delay("Greetings!", self.request.user.id)
             return redirect('menu:main')
         context = {
             'form': form
