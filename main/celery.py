@@ -6,4 +6,3 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'main.settings')
 
 app = Celery('main')
 app.config_from_object('django.conf:settings', namespace='CELERY')
-
