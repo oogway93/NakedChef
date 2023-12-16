@@ -12,7 +12,7 @@ from .models import Order
 from menu.models import Basket
 
 
-@method_decorator(cache_page(timeout=60 * 30), name='dispatch')
+@method_decorator(cache_page(timeout=60 * 10), name='dispatch')
 class OrderListView(TitleMixin, ListView):
     template_name = 'order/order_list.html'
     title = 'Store - Заказы'
@@ -34,7 +34,7 @@ class SuccessTemplateView(TitleMixin, TemplateView):
     title = 'NakedChef - Спасибо за заказ!'
 
 
-@method_decorator(cache_page(timeout=60 * 30), name='dispatch')
+@method_decorator(cache_page(timeout=60 * 10), name='dispatch')
 class OrderDetailView(DetailView):
     template_name = 'order/order.html'
     model = Order
@@ -46,7 +46,7 @@ class OrderDetailView(DetailView):
         return context
 
 
-# @method_decorator(cache_page(timeout=60 * 30), name='dispatch')
+@method_decorator(cache_page(timeout=60 * 10), name='dispatch')
 class OrderCreateView(TitleMixin, CreateView):
     template_name = 'order/order_create.html'
     form_class = OrderForm
@@ -67,7 +67,7 @@ class OrderCreateView(TitleMixin, CreateView):
         return redirect('orders:success')
 
 
-# @cache_page(timeout=60 * 15)
+@cache_page(timeout=60 * 5)
 @login_required
 def remove_order(request, order_id: int):
     order = Order.objects.get(id=order_id)

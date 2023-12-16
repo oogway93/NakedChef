@@ -32,6 +32,7 @@ def basket(request):
     return render(request, 'menu/basket.html', context=context)
 
 
+@cache_page(timeout=60 * 5)
 @login_required
 def basket_add(request, menu_id: int):
     user = request.user
