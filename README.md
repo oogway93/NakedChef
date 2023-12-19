@@ -30,7 +30,7 @@
    python manage.py migrate
 4. Finally, you can start the project with third-party tools due commands.
     ```
-    python manage.py runserver
+    python manage.py runserver or gunicorn main.wsgi --reload
     celery -A main.celery:app worker -l INFO 
     celery -A main.celery:app flower -l INFO 
 
