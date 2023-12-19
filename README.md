@@ -28,9 +28,11 @@
 3. After that, do migrate to your DB.
    ```python
    python manage.py migrate
-4. Finally, you can start the project due a command.
+4. Finally, you can start the project with third-party tools due commands.
     ```
     python manage.py runserver
+    celery -A main.celery:app worker -l INFO 
+    celery -A main.celery:app flower -l INFO 
 
 > As well as, you can start tests in the project
 
@@ -58,6 +60,7 @@
     ```
    docker compose up -d --build
 3. Let's check site's pages...
+
 > Some pictures
 >
 > 1. Main page

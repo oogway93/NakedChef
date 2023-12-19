@@ -9,7 +9,7 @@ services:
       - ./:/app
     ports:
       - "8000:8000"
-    command: python3 manage.py runserver 0.0.0.0:8000
+    command: python3 manage.py runserver 0.0.0.0:8000 && celery -A main.celery:app worker -l INFO && celery -A main.celery:app flower -l INFO
     depends_on:
       - db
     networks:
